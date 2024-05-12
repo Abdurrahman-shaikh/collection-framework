@@ -1,0 +1,8 @@
+*~
+*.orig
+*.o
+*.so
+*.so.*
+libcoll_test
+.vscode
+*.code-workspace
