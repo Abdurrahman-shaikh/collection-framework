@@ -1,4 +1,4 @@
-Sure, I've formatted the README.md file for your project:
+Here's the updated README.md file with instructions on how to compile and run the project:
 
 ```markdown
 # Collection Framework in C
@@ -13,15 +13,42 @@ The project directory structure is as follows:
 - `include`: Contains header files for each data structure.
 - `src`: Contains source files for each data structure.
 - `test`: Contains a test file `main.c` for testing the functionality of each data structure.
-- `LICENSE`: Contains the license information for the project.
 - `Makefile`: Makefile for compiling the project.
 - `README.md`: This file providing an overview of the project.
 
 ## Usage
 
-To use the collection framework in your project, include the respective header file (`#include "arraylist.h"`, `#include "bst.h"`, etc.) in your source files and link the corresponding object files during compilation.
+1. Clone the repository:
+
+```bash
+git clone https://github.com/Abdurrahman-shaikh/collection-framework.git
+```
+
+2. Change directory to the project directory:
+
+```bash
+cd collection-framework
+```
+
+3. Clean previous build (optional):
+
+```bash
+make clean
+```
+
+4. Compile the project:
+
+```bash
+make
+```
+
+5. Run the executable:
+
+```bash
+./EXECUTABLE
+```
+
+Replace `EXECUTABLE` with the name of the generated executable file.
 
 Example usage can be found in the `test/main.c` file.
 ```
-
-This should make it more readable and structured. Let me know if you need further assistance!
