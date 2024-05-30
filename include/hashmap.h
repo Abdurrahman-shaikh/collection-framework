@@ -1,100 +1,41 @@
-/*
- * hashmap.h
- *
- * a basic implementation of a hashmap
- *
- * This file is part of libcoll, a generic collections library for C.
- *
- * Copyright (c) 2010-2020 Mika Wahlroos (mika.wahlroos@iki.fi)
- *
- * Permission is hereby granted, free of charge, to any person obtaining
- * a copy of this software and associated documentation files (the
- * "Software"), to deal in the Software without restriction, including
- * without limitation the rights to use, copy, modify, merge, publish,
- * distribute, sublicense, and/or sell copies of the Software, and to
- * permit persons to whom the Software is furnished to do so, subject to
- * the following conditions:
- *
- * The above copyright notice and this permission notice shall be
- * included in all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
- * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
- * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
- * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */
+// hashmap.h
+#ifndef HASHMAP_H
+#define HASHMAP_H
 
-#include <stdlib.h>
+// Hash map entry structure
+typedef struct HashMapEntry {
+    const void* key;
+    void* value;
+    struct HashMapEntry* next;  // Pointer to the next entry (for separate chaining)
+} HashMapEntry;
 
-#include "linkedlist.h"
-#include "map.h"
-#include "types.h"
+// Hash map data structure
+typedef struct HashMap {
+    unsigned int capacity;
+    unsigned int size;
+    HashMapEntry** buckets;
+} HashMap;
 
-#ifndef LIBCOLL_HASHMAP_H
-#define LIBCOLL_HASHMAP_H
+// Function pointer type for hash map entry deallocation
+typedef void (*HashMapEntryFreeFn)(HashMapEntry*);
 
-#define LIBCOLL_HASHMAP_DEFAULT_INIT_SIZE         32
-#define LIBCOLL_HASHMAP_DEFAULT_MAX_LOAD_FACTOR   0.75f
+// Create a new hash map
+HashMap* hashmap_create(unsigned int capacity);
 
-typedef struct libcoll_hashmap_entry {
-    const void *key;
-    const void *value;
-} libcoll_hashmap_entry_t;
+// Insert a key-value pair into the hash map
+int hashmap_put(HashMap* map, const void* key, void* value);
 
-typedef struct libcoll_hashmap {
-    libcoll_linkedlist_t **buckets;
-    size_t capacity;
-    size_t total_entries;
-    float max_load_factor;
-    unsigned long (*hash_code_function)(const void *key);
-    int (*key_comparator_function)(const void *key1, const void *key2);
-    int (*value_comparator_function)(const void *value1, const void *value2);
-} libcoll_hashmap_t;
+// Get the value associated with a key from the hash map
+void* hashmap_get(HashMap* map, const void* key);
 
-typedef struct libcoll_hashmap_iter {
-    libcoll_hashmap_t *hm;
-    size_t bucket_index;
-    libcoll_linkedlist_node_t *list_node;
-} libcoll_hashmap_iter_t;
+// Remove a key-value pair from the hash map
+void hashmap_remove(HashMap* map, const void* key);
 
-libcoll_hashmap_t* libcoll_hashmap_init();
+// Get the number of key-value pairs in the hash map
+unsigned int hashmap_size(HashMap* map);
 
-libcoll_hashmap_t* libcoll_hashmap_init_with_params(
-        size_t init_capacity,
-        float max_load_factor,
-        unsigned long (*hash_code_function)(const void*),
-        int (*key_comparator_function)(const void *key1, const void *key2),
-        int (*value_comparator_function)(const void *value1, const void *value2));
+// Free the memory allocated for the hash map
+void hashmap_destroy(HashMap* map, HashMapEntryFreeFn free_fn);
 
-void libcoll_hashmap_deinit(libcoll_hashmap_t *hm);
+#endif /* HASHMAP_H */
 
-libcoll_map_insertion_result_t libcoll_hashmap_put(libcoll_hashmap_t *hm, const void *key, const void *value);
-
-void* libcoll_hashmap_get(const libcoll_hashmap_t *hm, const void *key);
-
-char libcoll_hashmap_contains(const libcoll_hashmap_t *hm, const void *key);
-
-libcoll_map_removal_result_t libcoll_hashmap_remove(libcoll_hashmap_t *hm, const void *key);
-
-size_t libcoll_hashmap_get_capacity(const libcoll_hashmap_t *hm);
-
-size_t libcoll_hashmap_get_size(const libcoll_hashmap_t *hm);
-
-char libcoll_hashmap_is_empty(const libcoll_hashmap_t *hm);
-
-libcoll_hashmap_iter_t *libcoll_hashmap_get_iterator(libcoll_hashmap_t *hm);
-
-void libcoll_hashmap_drop_iterator(libcoll_hashmap_iter_t *iter);
-
-char libcoll_hashmap_iter_has_next(libcoll_hashmap_iter_t *iter);
-
-libcoll_hashmap_entry_t* libcoll_hashmap_iter_next(libcoll_hashmap_iter_t *iter);
-
-char libcoll_hashmap_iter_has_previous(libcoll_hashmap_iter_t *iter);
-
-libcoll_hashmap_entry_t* libcoll_hashmap_iter_previous(libcoll_hashmap_iter_t *iter);
-
-#endif  /* LIBCOLL_HASHMAP_H */
