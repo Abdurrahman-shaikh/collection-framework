@@ -1,4 +1,4 @@
-Sure, here's a simple README.md file for your project:
+Sure, I've formatted the README.md file for your project:
 
 ```markdown
 # Collection Framework in C
@@ -40,6 +40,6 @@ The project directory structure is as follows:
 To use the collection framework in your project, include the respective header file (`#include "arraylist.h"`, `#include "bst.h"`, etc.) in your source files and link the corresponding object files during compilation.
 
 Example usage can be found in the `test/main.c` file.
-
-
 ```
+
+This should make it more readable and structured. Let me know if you need further assistance!
