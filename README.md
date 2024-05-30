@@ -9,24 +9,6 @@ This project implements a collection framework in C, providing data structures s
 
 The project directory structure is as follows:
 
-```
-.
-├── include
-│   ├── arraylist.h
-│   ├── bst.h
-│   ├── hashmap.h
-│   └── linkedlist.h
-├── src
-│   ├── arraylist.c
-│   ├── bst.c
-│   ├── hashmap.c
-│   └── linkedlist.c
-├── test
-│   └── main.c
-├── LICENSE
-├── Makefile
-└── README.md
-```
 
 - `include`: Contains header files for each data structure.
 - `src`: Contains source files for each data structure.
